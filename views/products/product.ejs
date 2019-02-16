@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pokedex</title>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <% for(var index = productId; index <= productId; index++){ %>
+            <div class="col-md-3">
+                <div class="card mb-3">
+                    <h3 class="card-header">Card header</h3>
+                    <div class="card-body">
+                        <h5 class="card-title">Special title treatment</h5>
+                        <h6 class="card-subtitle text-muted">Support card subtitle</h6>
+                    </div>
+                    <img style="height: 200px; width: 100%; display: block;" src="/public/images/<%= formatNumber(productId)%>.png"
+                        alt="Card image">
+                    <div class="card-body">
+                        <a href="/pokedex" class="card-link">回到目錄</a>
+                        <a href="#" class="card-link">Another link</a>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+        </div>
+    </div>
+</body>
+
+</html>
