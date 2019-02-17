@@ -7,5 +7,10 @@
   <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
+
+    <% comments.forEach(function(comment){ %>
+      <p><%= comment.content %></p>
+    <% }); %>
+    
   </body>
 </html>

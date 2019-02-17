@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login</title>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <legend>Login</legend>
+                <button class="btn btn-primary" onclick="login()">Sign in with Google</button>
+            </div>
+            <div class="col-md-12"><img id="user-photo" src="" alt=""></div>
+        </div>
+    </div>
+</body>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!-- Firebase App is always required and must be first -->
+<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase-app.js"></script>
+
+<!-- Add additional services that you want to use -->
+<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase-firestore.js"></script>
+
+<script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyCkP-GWFvflf40tboKDaeVWmbt0cPLi_eo",
+        authDomain: "html307-project-ivorychang.firebaseapp.com",
+        databaseURL: "https://html307-project-ivorychang.firebaseio.com",
+        projectId: "html307-project-ivorychang",
+        storageBucket: "html307-project-ivorychang.appspot.com",
+        messagingSenderId: "678898875515"
+    };
+    firebase.initializeApp(config);
+
+    var provider = new firebase.auth.GoogleAuthProvider();
+
+    function login() {
+        firebase.auth().signInWithPopup(provider).then(function (result) {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            var token = result.credential.accessToken;
+            // The signed-in user info.
+            var user = result.user;
+            console.log(user);
+            $("#user-photo").attr("src", user.photoURL);
+
+            axios.post('/users/verify', {
+                    token: token,
+                    user: {
+                        name: user.displayName,
+                        email: user.email,
+                        photoURL: user.photoURL
+                    }
+                })
+                .then(function (response) {
+                    console.log(response);
+                    window.location = "/users/dashboard";
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            // ...
+        }).catch(function (error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // The email of the user's account used.
+            var email = error.email;
+            // The firebase.auth.AuthCredential type that was used.
+            var credential = error.credential;
+            // ...
+        });
+    }
+</script>
+
+</html>

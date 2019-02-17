@@ -8,6 +8,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var productsRouter = require('./routes/products');
 
+var session = require('express-session')
+
 var app = express();
 
 // view engine setup
@@ -26,6 +28,13 @@ app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/pokedex', productsRouter);
+// Use the session middleware
+app.use(session({
+  secret: 'keyboard cat',
+  resave: true,
+  saveUninitialized: true
+}));
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
